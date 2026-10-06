@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>글자 수 세기</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 0 16px;
+      background: #fafafa;
+      color: #222;
+    }
+    textarea {
+      width: 100%;
+      height: 160px;
+      padding: 10px;
+      font-size: 16px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background: #3b6ef5;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover { background: #2c56c9; }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+  <h1>글자 수 세기</h1>
+  <textarea id="input" placeholder="여기에 글을 입력하세요"></textarea>
+  <br>
+  <button id="countBtn">글자 수 세기</button>
+  <div id="result"></div>
+
+  <script>
+    function updateCount() {
+      var text = document.getElementById('input').value;
+      // Array.from은 이모지 같은 문자도 한 글자로 셉니다
+      var total = Array.from(text).length;
+      var noSpaces = Array.from(text.replace(/\s/g, '')).length;
+      document.getElementById('result').innerHTML =
+        '공백 포함: <strong>' + total + '</strong>자<br>' +
+        '공백 제외: <strong>' + noSpaces + '</strong>자';
+    }
+
+    document.getElementById('countBtn').addEventListener('click', updateCount);
+    // 입력 칸이 바뀔 때마다 실시간으로 갱신
+    document.getElementById('input').addEventListener('input', updateCount);
+  </script>
+</body>
+</html>
