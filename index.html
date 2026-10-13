@@ -109,6 +109,10 @@
       background: linear-gradient(135deg, #b1a0ff, var(--purple));
       box-shadow: 0 0 0 4px rgba(124, 92, 255, 0.15);
     }
+    .dot.teal {
+      background: linear-gradient(135deg, #7fe3f0, var(--teal));
+      box-shadow: 0 0 0 4px rgba(18, 181, 203, 0.15);
+    }
     .dot.orange {
       background: linear-gradient(135deg, #ffd166, #ff8a3d);
       box-shadow: 0 0 0 4px rgba(255, 138, 61, 0.15);
@@ -153,6 +157,9 @@
     }
     #countNoSpace {
       color: var(--purple);
+    }
+    #wordCount {
+      color: var(--teal);
     }
     /* 제한을 넘으면 숫자를 빨간색으로 바꿉니다. */
     #count.over,
@@ -251,6 +258,12 @@
           <span class="byte"><span id="byteNoSpace">0</span>byte</span>
         </span>
       </div>
+      <div class="row">
+        <span class="label"><span class="dot teal"></span>단어 수</span>
+        <span class="value">
+          <span class="num" id="wordCount">0</span>개
+        </span>
+      </div>
     </div>
 
     <div class="buttons">
@@ -269,6 +282,7 @@
     var countNoSpaceView = document.getElementById("countNoSpace");
     var byteView = document.getElementById("byte");
     var byteNoSpaceView = document.getElementById("byteNoSpace");
+    var wordCountView = document.getElementById("wordCount");
     var limitInput = document.getElementById("limit");
     var countButton = document.getElementById("count-btn");
     var clearButton = document.getElementById("clear");
@@ -277,6 +291,13 @@
     var encoder = new TextEncoder();
     function byteLength(text) {
       return encoder.encode(text).length;
+    }
+
+    // 띄어쓰기, 줄바꿈, 탭으로 나뉜 덩어리를 단어 하나로 셉니다.
+    // 빈 입력이나 공백뿐인 글은 0개입니다.
+    function countWords(text) {
+      var trimmed = text.trim();
+      return trimmed === "" ? 0 : trimmed.split(/\s+/).length;
     }
 
     // 글자 수를 세어 화면에 보여 주는 함수입니다.
@@ -290,6 +311,7 @@
       countNoSpaceView.textContent = noSpaceText.length.toLocaleString();
       byteView.textContent = byteLength(text).toLocaleString();
       byteNoSpaceView.textContent = byteLength(noSpaceText).toLocaleString();
+      wordCountView.textContent = countWords(text).toLocaleString();
 
       // 제한 칸이 비어 있거나 숫자가 아니면 제한이 없는 것으로 봅니다.
       var limit = limitInput.value === "" ? NaN : Number(limitInput.value);
